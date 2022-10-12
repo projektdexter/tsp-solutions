@@ -2,16 +2,29 @@
 
 The [travelling salesperson problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem) is a np-hard problem with application in supply chain and computer science. The below code uses PuLP solver to find the exact solution of the TSP. Other dependencies include numpy and pandas.
 
+Input Parameters:
+
+**_time_matrix_**: is a **_NxN_** cost matrix between the points example:
+
+```
+    0     1   2     3   4
+0   0  21.0  15  21.0  10
+1  21   0.0   5   0.5  11
+2  15   5.0   0   5.0   5
+3  21   0.5   5   0.0  10
+4  10  11.0   5  10.0   0
+```
+
 ## Example 1:
 
 ```
-time_input = pd.DataFrame({0:[0,21,15,21,10],
+time_matrix = pd.DataFrame({0:[0,21,15,21,10],
                            1:[21,0,5,.5,11],
                            2:[15,5,0,5,5],
                            3:[21,0.5,5,0,10],
                            4:[10,11,5,10,0]})
 
-TSP_truck(time_input)
+TSP_truck(time_matrix)
 ```
 
 ## Output:
