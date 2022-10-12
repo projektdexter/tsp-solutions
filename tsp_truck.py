@@ -39,8 +39,7 @@ def TSP_truck(time_matrix):
 
     status = problem.solve() 
     print(f"status: {problem.status}, {LpStatus[problem.status]}")
-    print(f"objective: {problem.objective.value()}")
-    for var in problem.variables():
+
         if (problem.status == 1):
             if (var.value() !=0):
                 result.append(var.value())
