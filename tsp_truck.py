@@ -36,7 +36,8 @@ def TSP_truck(time_matrix):
             if i != j and (j != 0):
                 problem += decisionVariableT[j] >= decisionVariableT[i] + time_matrix.iloc[i,j] - 10000*(1-decisionVariableX[i,j]) # Calculating time of arrival at each node
     
-
+    status = 0
+    Objective = 0
     status = problem.solve() 
     print(f"status: {problem.status}, {LpStatus[problem.status]}")
     print(f"objective: {problem.objective.value()}")
@@ -45,6 +46,8 @@ def TSP_truck(time_matrix):
             if (var.value() !=0):
                 result.append(var.value())
                 result_name.append(var.name)
+    status = problem.status
+    objective = problem.objective.value()
     result_df['Variable Name'] = result_name
     result_df['Variable Value'] = result
-    return(result_df)
+    return(status, objective, result_df)
