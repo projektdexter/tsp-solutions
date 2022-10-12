@@ -43,7 +43,6 @@ def TSP_truck(time_matrix):
     for var in problem.variables():
         if (problem.status == 1):
             if (var.value() !=0):
-                print(f"{var.name}: {var.value()}")
                 result.append(var.value())
                 result_name.append(var.name)
     result_df['Variable Name'] = result_name
