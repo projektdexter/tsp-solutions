@@ -5,7 +5,7 @@ from pulp import LpMinimize
 
 class tsp:
   def __init__(self):
-    pass 
+    None 
 
   def TSP_truck(self, matrix):
       result = []
