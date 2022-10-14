@@ -1,6 +1,6 @@
-# TravellingSalespersonProblem
+# TravellingSalesmanProblem
 
-The [travelling salesperson problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem) is a np-hard problem with application in supply chain and computer science. The below code uses PuLP solver to find the exact solution of the TSP. Other dependencies include numpy and pandas.
+The [travelling salesman problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem) is a np-hard problem with application in supply chain and computer science. The below code uses PuLP solver to find the exact solution of the TSP. Other dependencies include numpy and pandas.
 
 Input Parameters:
 
