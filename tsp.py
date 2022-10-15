@@ -1,13 +1,14 @@
-
 import pandas as pd
 import numpy as np
-from pulp import LpMinimize
+from pulp import *
+from scipy.sparse.csgraph import minimum_spanning_tree,breadth_first_order
+import matplotlib.pyplot as plt
 
 class tsp:
-  def __init__(self):
-    None 
+    def __init__(self):
+        None
 
-  def TSP_truck(self, matrix):
+    def tsp_exact(self, matrix):
       result = []
       result_name = []
       result_df = pd.DataFrame()
@@ -62,3 +63,131 @@ class tsp:
 
       # return
       return(problem.objective.value(), problem.solutionTime, result_df, route)
+    
+    def nn_heuristic(self, matrix):
+        points = list(range(1,len(matrix.loc[0])))
+        matrix = matrix.replace(0, np.nan)
+        matrix = matrix.iloc[:,1:]
+        route=[]
+        distance_sum = []
+        distance = 0
+        position = 0
+        while(len(points)>=1):
+            arg_min = matrix.loc[position].idxmin()
+            distance = distance + matrix.loc[position,arg_min]
+            distance_sum.append(distance)
+            route.append(arg_min)
+            points.remove(arg_min)
+            matrix = matrix.drop([arg_min], axis = 1)
+            position = arg_min
+        route.insert(0,0)
+        route.append(0)
+        return(route)
+    
+    def ni_heuristic(self, matrix):
+        backup = matrix 
+        points = list(range(1,len(matrix[0])))
+        matrix = matrix.replace(0, np.nan)
+        matrix = matrix.drop(0, axis = 1)
+        route=[] 
+        route.append(0)
+        while(len(points)>=1):
+            min = 100000
+            for i in route:
+                arg_min = matrix.loc[i].idxmin()
+                if (route.count(arg_min)) == 0:
+                    if (backup.iloc[i, arg_min]<min):
+                        min_node = arg_min
+                        min = backup.iloc[i, arg_min]
+            if len(route)>=3:
+                best_position = 10000
+                node = 0
+                for i in range(len(route)-1):
+                    saving = backup.iloc[route[i],min_node] + backup.iloc[min_node, route[i+1]] - backup.iloc[route[i],route[i+1]]
+                    if (saving<=best_position):
+                        node = i
+                        best_position = saving
+                route.insert(node+1, min_node)
+                points.remove(min_node)
+                matrix=matrix.drop([min_node], axis = 1)
+            else:
+                route.append(min_node)
+                points.remove(min_node)
+                matrix=matrix.drop([min_node], axis = 1)
+        route.append(0)
+        return (route)
+    
+    def ci_heuristic(self,matrix):
+        backup = matrix 
+        points = list(range(1,len(matrix[0])))
+        matrix = matrix.replace(0, np.nan)
+        matrix = matrix.drop(0, axis = 1)
+        route=[]
+        position = 0 
+        route.append(0)
+        while(len(points)>=1):
+            if (len(route))<3:
+                for i in route:
+                    min_node = matrix.loc[position].idxmin()
+                route.append(min_node)
+                points.remove(min_node)
+                matrix = matrix.drop([min_node], axis = 1)
+                position = min_node
+
+
+            if len(route)>=3:
+                min_k=0
+                best_position = 10000
+                node = 0
+                for j in points:
+                    min_k = j
+                    for i in range(len(route)-1):
+                        saving = backup.iloc[route[i],min_node] + backup.iloc[min_node, route[i+1]] - backup.iloc[route[i],route[i+1]]
+                        if (saving<=best_position):
+                            min_node = min_k
+                            node = i
+                            best_position = saving
+                route.insert(node+1, min_node)
+                points.remove(min_node)
+                matrix=matrix.drop([min_node], axis = 1)
+        route.append(0)
+        return (route)
+    
+    def fi_heuristic(self, matrix):
+        backup = matrix 
+        points = list(range(1,len(matrix[0])))
+        matrix = matrix.replace(0, np.nan)
+        matrix = matrix.drop(0, axis = 1)
+        route=[]
+        route.append(0)
+        while(len(points)>=1):
+            min = 100000
+            for i in route:
+                arg_min = matrix.loc[i].idxmax()
+                if (route.count(arg_min)) == 0:
+                    if (backup.iloc[i, arg_min]<min):
+                        min_node = arg_min
+                        min = backup.iloc[i, arg_min]
+            if len(route)>=3:
+                best_position = 10000
+                node = 0
+                for i in range(len(route)-1):
+                    saving = backup.iloc[route[i],min_node] + backup.iloc[min_node, route[i+1]] - backup.iloc[route[i],route[i+1]]
+                    if (saving<=best_position):
+                        node = i
+                        best_position = saving
+                route.insert(node+1, min_node)
+                points.remove(min_node)
+                matrix=matrix.drop([min_node], axis = 1)
+            else:
+                route.append(min_node)
+                points.remove(min_node)
+                matrix=matrix.drop([min_node], axis = 1)
+        route.append(0)
+        return (route)
+    
+    def MST_heuristic(time_matrix):
+        tree = minimum_spanning_tree(time_matrix)
+        route = breadth_first_order(tree, i_start=0, directed=False, return_predecessors=False).tolist()
+        route.append(0)
+        return(route)
