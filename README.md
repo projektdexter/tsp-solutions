@@ -43,7 +43,7 @@ Input Parameters:
 4  10  11.0   5  10.0   0
 ```
 
-For small instances with $\leq15$ nodes, the tsp_exact function will give the exact solution. For instances $> 15$ nodes, heuristic solutions are preferred due to high computation time. (Remember, tsp is a NP-hard problem with $O(2!)$)
+For small instances with $\leq15$ nodes, the tsp_exact function will give the exact solution. For instances $> 15$ nodes, heuristic solutions are preferred due to high computation time. (Remember, tsp is a NP-hard problem with O(2!))
 
 We define the following heuristics for tsp:
 
