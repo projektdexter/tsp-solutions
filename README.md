@@ -4,6 +4,24 @@ The [travelling salesperson problem](https://en.wikipedia.org/wiki/Travelling_sa
 
 The mathematical formulation is summarrised below:
 
+## Sets and Decision variables
+
+$\mathbb{N}$ is the set of all customer node subset $i$ and $j$
+
+We will use  binary variable $x_{ij}$ 
+
+$x_{ij}$ will take the value 1 if truck travels from node $i$ to node $j$, 0 otherwise. $i\in\mathbb{N}$ and $j\in\mathbb{N}$
+
+Other variables are:
+
+$u_{i}$ will take the value of the order of node $i$ in the final route of truck. $i\in\mathbb{N}^{}$
+
+$t_{i}$ represents the arrival time for truck at node $i$. 
+
+$tt_{ij}$ represents the truck travel time between nodes $i$ and $j$. 
+
+$M$ is a very large number
+
 Objective: Minimize the total time to visit all nodes
 
 $$ Obj=min\{\sum_{i=D}^{D'}t_{i}\} $$
