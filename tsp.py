@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 from pulp import *
 from scipy.sparse.csgraph import minimum_spanning_tree,breadth_first_order
-import matplotlib.pyplot as plt
 
 class tsp:
     def __init__(self):
@@ -59,8 +58,7 @@ class tsp:
             if (j!=0):
               route[x+1] = j
       route.append(0)
-
-
+    
       # return
       return(problem.objective.value(), problem.solutionTime, result_df, route)
     
