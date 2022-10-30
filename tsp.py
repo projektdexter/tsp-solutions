@@ -41,7 +41,7 @@ class tsp:
                   problem += decisionVariableT[j] >= decisionVariableT[i] + matrix.iloc[i,j] - 10000*(1-decisionVariableX[i,j]) # Calculating time of arrival at each node
       
       # Solving the equation and storing the result
-      status = problem.solve() 
+      status = problem.solve(CPLEX_CMD) 
       for var in problem.variables():
           if (problem.status == 1):
               if (var.value() !=0):
