@@ -24,21 +24,21 @@ $M$ is a very large number
 
 Objective: Minimize the total time to visit all nodes
 
-$$ Obj=min\{\sum_{i=D}^{D'}t_{i}\} $$
+$$ Obj=min\{\sum_{i}t_{i}\} $$
 
 Constraint 1: All nodes have to be visited by truck exactly once
 
-$$ \sum_{i=D}^{D'}x_{ij}=1 $$
+$$ \sum_{i}x_{ij}=1 $$
 
 Constraint 2: Truck leaves depot D and comes back to depot D' exactly once $i=D,D'$
 
-$$ \sum_{j=D}^{n}x_{ij}=1 $$ 
+$$ \sum_{j}x_{ij}=1 $$ 
 
-$$ \sum_{j=D}^{D'}x_{jk}=1 $$
+$$ \sum_{j}x_{jk}=1 $$
 
 Constraint 3: If truck arrives at node j then it should also leave node j.
 
-$$ \sum_{i=D}^{D'}x_{ij}=\sum_{k=D}^{D'}x_{jk} for j\in\mathbb{N} $$
+$$ \sum_{i}x_{ij}=\sum_{k}x_{jk} $$
 
 Constraint 4: Avoiding sub-tours for truck
 
@@ -61,7 +61,7 @@ Input Parameters:
 4  10  11.0   5  10.0   0
 ```
 
-For small instances with $\leq15$ nodes, the tsp_exact function will give the exact solution. For instances $> 15$ nodes, heuristic solutions are preferred due to high computation time. (Remember, tsp is a NP-hard problem with O(2!))
+For small instances with $\leq15$ nodes, the tsp_exact function will give the exact solution. For instances $> 15$ nodes, heuristic solutions are preferred due to high computation time. (Remember, tsp is a NP-hard problem with O(n!))
 
 We define the following heuristics for tsp:
 
