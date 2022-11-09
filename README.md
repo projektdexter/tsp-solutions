@@ -39,6 +39,7 @@ The [travelling salesman problem](https://en.wikipedia.org/wiki/Travelling_sales
 2. **_method_**: The type of solver to use. Default is "PULP_CBC_CMD". Other solvers available are: "CPLEX_CMD", "GUROBI_CMD", and "COIN_CMD".
 3. **_message_**: PuLP will display calculation summary if message is set to 1. Default value is 0 (suppress summary).
 4. **_route_**: Initial route estimate  **_(only for improvement heuristics & metaheuristics)_**
+5. **_trials_**: Number of local search to be made, default is 5000  **_(only for improvement heuristics & metaheuristics)_**
 
 #### Output attributes:
 
