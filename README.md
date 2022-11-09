@@ -10,9 +10,9 @@ The [travelling salesman problem](https://en.wikipedia.org/wiki/Travelling_sales
  _tsp_exact_ uses [PuLP module](https://coin-or.github.io/pulp/) to formulate the problem and [CPLEX](https://www.ibm.com/analytics/cplex-optimizer), [GUROBI](https://www.gurobi.com/solutions/gurobi-optimizer/), [COIN_CMD](https://github.com/coin-or/Cbc), and [PULP_solver](https://github.com/coin-or/pulp) to find the exact solution of the TSP. To setup an external solver follow [this link](https://coin-or.github.io/pulp/guides/how_to_configure_solvers.html). 
  
  #### 2. Heuristics & Metaheuristics
- heuristics & metaheuristic functions described later can be used for large instances.
+ heuristics & metaheuristic functions described later are local search algorithms which can be used for large instances.
 
- Dependencies include [pulp],(https://github.com/coin-or/pulp), [numpy](https://numpy.org/doc/stable/), [pandas](https://pandas.pydata.org/docs/), [scipy](https://docs.scipy.org/doc/scipy/), and [copy](https://docs.python.org/3/library/copy.html).
+ Dependencies include [pulp](https://github.com/coin-or/pulp), [numpy](https://numpy.org/doc/stable/), [pandas](https://pandas.pydata.org/docs/), [scipy](https://docs.scipy.org/doc/scipy/), and [copy](https://docs.python.org/3/library/copy.html).
 
   If you find an error please raise an issue and i will respond.
 
