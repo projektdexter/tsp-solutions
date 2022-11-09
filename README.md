@@ -116,24 +116,77 @@ $$ t_{j}\geq t_{i}+tt_{ij}-M(1-x_{ij}) \quad i,j\in\mathbb{N}$$
 
 ## Example 1:
 
-<img src=https://user-images.githubusercontent.com/114884444/198330529-16e2fe72-fbd9-4b71-93a6-2dbaafee60e2.png width="400">
-
-With the below distance matrix:
 ```
-time_matrix=
-0	1	2	3	4	5	6	7	8
-0	14.015	14.411	14.749	21.253	19.333	9.37	10.186	15.054
-14.003	0	5.317	30.438	9.109	16.033	6.13	5.209	5.062
-14.022	5.251	0	30.411	6.656	14.415	8.705	4.708	1.047
-14.755	30.741	30.746	0	37.979	21.296	26.096	26.521	31.389
-21.384	8.819	5.854	37.818	0	21.869	14.803	25.428	6.925
-18.62	16.179	15.038	21.287	21.128	0	23.369	10.812	15.68
-9.89	5.853	8.274	26.325	14.396	23.082	0	13.935	8.031
-9.987	5.599	4.458	26.377	10.709	10.938	7.619	0	5.1
-15.122	6.061	1.372	31.512	7.284	15.516	8.907	5.354	0
+import pandas as pd
+import tsp_solutions  # import tsp-solutions module
 
-tsp_exact(time_matrix, method = 'CPLEX_CMD')
+matrix = pd.read_csv('Hamilton_road_distance.csv')
+tsp = tsp_solutions.tsp() # calling class tsp
+matrix=
+        0       1       2       3       4       5       6       7       8
+0   0.000  14.015  14.411  14.749  21.253  19.333   9.370  10.186  15.054
+1  14.003   0.000   5.317  30.438   9.109  16.033   6.130   5.209   5.062
+2  14.022   5.251   0.000  30.411   6.656  14.415   8.705   4.708   1.047
+3  14.755  30.741  30.746   0.000  37.979  21.296  26.096  26.521  31.389
+4  21.384   8.819   5.854  37.818   0.000  21.869  14.803  25.428   6.925
+5  18.620  16.179  15.038  21.287  21.128   0.000  23.369  10.812  15.680
+6   9.890   5.853   8.274  26.325  14.396  23.082   0.000  13.935   8.031
+7   9.987   5.599   4.458  26.377  10.709  10.938   7.619   0.000   5.100
+8  15.122   6.061   1.372  31.512   7.284  15.516   8.907   5.354   0.000
 ```
 
-## Output:
-<img src=https://user-images.githubusercontent.com/114884444/198332900-cd10d859-a6d4-42d2-816a-bf771b08cbc6.png width='400'>
+### For Exact Solution:
+```
+result = tsp.tsp_exact(matrix, method = 'CPLEX_CMD')
+print(result)
+```
+
+### Output:
+```
+([0, 6, 1, 4, 2, 8, 7, 5, 3, 0], 83.5669999999999)
+```
+
+### For Tabu Search:
+```
+initial_route = [0,1,2,3,4,5,6,7,8,0]
+result = tsp.tabu_search(initial_route,matrix, trials = 15000)
+print(result)
+```
+
+### Output:
+```
+([0, 6, 1, 4, 2, 8, 7, 5, 3, 0], 83.56700000000001)
+```
+### For 2-Opt Exchange:
+```
+initial_route = [0,1,2,3,4,5,6,7,8,0]
+result = tsp.Opt2(initial_route,matrix, trials = 15000)
+print(result)
+```
+
+### Output:
+```
+([0, 6, 5, 2, 7, 3, 4, 8, 1, 0], 84.31700000000001)
+```
+### For MST heuristics:
+```
+result = tsp.MST_heuristic(matrix)
+print(result)
+```
+
+### Output:
+```
+([0, 3, 6, 1, 8, 2, 4, 7, 5, 0], 114.774)
+```
+
+### For insertion heuristics heuristics:
+```
+result = tsp.fi_heuristic(matrix) # farthest insertion
+print(result)
+```
+
+### Output:
+```
+([0, 3, 6, 1, 4, 2, 8, 7, 5, 0], 97.62)
+```
+
