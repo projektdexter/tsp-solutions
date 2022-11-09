@@ -1,5 +1,9 @@
 # TravellingSalesmanProblem
 
+### Install tsp-solutions module
+```
+pip install tsp-solutions
+```
 The [travelling salesman problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem) is an np-hard problem with application in supply chain and computer science. The module has two parts:
 
 #### 1. Exact Solution
