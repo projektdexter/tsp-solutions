@@ -1,10 +1,56 @@
-# TravellingSalespersonProblem
+# TravellingSalesmanProblem
 
-The [travelling salesperson problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem) is a np-hard problem with application in supply chain and computer science. The below code uses [PuLP module](https://coin-or.github.io/pulp/) to formulate the problem and [CPLEX](https://coin-or.github.io/pulp/guides/how_to_configure_solvers.html) find the exact solution of the TSP. Other dependencies include numpy and pandas.
+The [travelling salesman problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem) is a np-hard problem with application in supply chain and computer science. The below code uses [PuLP module](https://coin-or.github.io/pulp/) to formulate the problem and [CPLEX](https://www.ibm.com/analytics/cplex-optimizer), [GUROBI](https://www.gurobi.com/solutions/gurobi-optimizer/), [COIN_CMD](https://github.com/coin-or/Cbc), and [PULP_solver](https://github.com/coin-or/pulp) to find the exact solution of the TSP. To setup an external solver follow the [this link](https://coin-or.github.io/pulp/guides/how_to_configure_solvers.html). Other dependencies include [numpy](https://numpy.org/doc/stable/), [pandas](https://pandas.pydata.org/docs/), [scipy](https://docs.scipy.org/doc/scipy/), and [copy](https://docs.python.org/3/library/copy.html).
 
-The mathematical formulation is summarrised below:
+#### Input Parameters:
 
-## Sets and Decision variables
+1. **_time_matrix_**: is a **_NxN_** cost matrix between the points that have to be visited by the nodes with 2 formatting requirements:
+
+        a. The row and column index of this matrix should be **type(INTEGER)**
+
+        b. Depot is indexed by 0, i.e. Row 0 represents the Depot. 
+
+##### Example:
+```
+    0     1   2     3   4
+0   0  21.0  15  21.0  10
+1  21   0.0   5   0.5  11
+2  15   5.0   0   5.0   5
+3  21   0.5   5   0.0  10
+4  10  11.0   5  10.0   0
+```
+2. **_method_**: The type of solver to use. Default is "PULP_CBC_CMD". Other solvers available are: "CPLEX_CMD", "GUROBI_CMD", and "COIN_CMD".
+3. **_message_**: PuLP will display calculation summary if message is set to 1. Default value is 0 (suppress summary).
+4. **_route_**: Initial route estimate  **_(only for improvement heuristics & metaheuristics)_**
+
+#### Output attributes:
+
+1. **_route_**[List]: The shortest route coving all the nodes. (The route starts from the depot and ends at the depot)
+2. **_route_sum_**[Scalar]: Total cost incurred by the route. 
+
+For small instances with $\leq15$ nodes, the tsp_exact function will give the exact solution. For instances $> 15$ nodes, heuristic solutions are preferred due to high computation time. (Remember, tsp is a NP-hard problem with O(n!))
+
+We define the following heuristics for tsp:
+
+### Construction heuristics:
+1. **Nearest neighbor heuristics**: The nearest node to the tour is added to the tour. See [Greedy Search](https://en.wikipedia.org/wiki/Nearest_neighbour_algorithm)
+2. **Nearest insertion heuristics**: The nearest node to the tour is inserted in the tour at an arc with minimum cost
+3. **Cheapest insertion heuristics**: Modified version of Nearest insertion heuristics which checks all nodes for insertion instead of the nearest node
+4. **Farthest insertion heuristics**:  The farthest node to the tour is inserted in the tour at an arc with minimum cost
+5. **MST heuristics**: Minimum spanning tree is created for the network and repeated nodes are removed to form the route See [Minimum Spanning Tree](https://en.wikipedia.org/wiki/Minimum_spanning_tree)
+
+### Improvement heuristics:
+
+6. **2-Opt exchange**: A local search algorithm which exchanges 2 route nodes and stores the solution if it has lower objective value. See [2-Opt](https://en.wikipedia.org/wiki/2-opt) 
+
+### Metaheuristic solutions:
+
+7. **Tabu search**: See [Tabu Seach](https://en.wikipedia.org/wiki/Tabu_search)
+
+## Mathematical formulation for the exact solution:
+Below is the mathematical formulation for the exact solution of tsp which is executed when user calls *tsp_exact()* function
+
+### Sets and Decision variables
 
 $\mathbb{N}$ is the set of all customer node subset $i$ and $j$
 
@@ -48,28 +94,6 @@ Constraint 5: We will add travel time $tt_{ij}$ to arrival time at node $i$ to g
 
 $$ t_{j}\geq t_{i}+tt_{ij}-M(1-x_{ij}) $$
 
-Input Parameters:
-
-**_time_matrix_**: is a **_NxN_** cost matrix between the points that have to be visited by the nodes, example:
-
-```
-    0     1   2     3   4
-0   0  21.0  15  21.0  10
-1  21   0.0   5   0.5  11
-2  15   5.0   0   5.0   5
-3  21   0.5   5   0.0  10
-4  10  11.0   5  10.0   0
-```
-
-For small instances with $\leq15$ nodes, the tsp_exact function will give the exact solution. For instances $> 15$ nodes, heuristic solutions are preferred due to high computation time. (Remember, tsp is a NP-hard problem with O(n!))
-
-We define the following heuristics for tsp:
-
-1. Nearest neighbor heuristics: The nearest node to the tour is added to the tour
-2. Nearest insertion heuristics: The nearest node to the tour is inserted in the tour at an arc with minimum cost
-3. Cheapest insertion heuristics: Modified version of Nearest insertion heuristics which checks all nodes for insertion instead of the nearest node
-4. Farthest insertion heuristics:  The farthest node to the tour is inserted in the tour at an arc with minimum cost
-5. MST heuristics: Minimum spanning tree is created for the network and repeated nodes are removed to form the route
 
 ## Example 1:
 
