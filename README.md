@@ -1,4 +1,4 @@
-# TravellingSalesmanProblem
+# Solving the Travelling Salesman Problem in Python
 
 ### Install tsp-solutions module
 ```
